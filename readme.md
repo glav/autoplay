@@ -1,7 +1,8 @@
 
 ### Files
 
-- **basic.py**: Contains an asynchronous function to get weather information and an agent setup to query weather using Azure OpenAI.
+- **basic/basic.py**: Contains an asynchronous function to get weather information and an agent setup to query weather using Azure OpenAI.
+- **simple_agent/*.py: Code to execute a simple agent co-ordinating using a simple runtime.
 - **list-openai-models.py**: Lists available OpenAI models using the OpenAI API.
 - **requirements.txt**: Lists the Python dependencies required for the project.
 
@@ -43,5 +44,15 @@
 Run the `basic.py` script to invoke the agent to get weather information:
 
 ```sh
-python basic.py
+python basic/basic.py
 ```
+
+### Simple Agent
+Run the `runtime.py` script to invoke the agent to get things to do in Sydney.
+Uses runtime and agent concepts.
+
+```sh
+python simple_agent/runtime.py
+```
+
+
