@@ -32,7 +32,7 @@ async def main() -> None:
   # Start the runtime processing messages.
   runtime.start()
   # Send a message to the agent and get the response.
-  message = Message("Hello, what are some fun things to do in Seattle?")
+  message = Message("Hello, what are some fun things to do in Sydney?")
   response = await runtime.send_message(message, AgentId("simple_agent", "default"))
   print(response.content)
   # Stop the runtime processing messages.
