@@ -39,7 +39,7 @@ termination = MaxMessageTermination(max_messages=2)
 agent_team = RoundRobinGroupChat([weather_agent], termination_condition=termination)
 
 async def main() -> None:
-    result = await agent_team.run(task="What is the weather in Sydney in celcius?")
+    result = await agent_team.run(task="What is the weather in Sydney?")
     print("\n", result)
 
 asyncio.run(main())
