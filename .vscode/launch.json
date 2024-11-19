@@ -1,0 +1,25 @@
+{
+  "configurations": [
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch list-openai-models.py",
+      "program": "${workspaceFolder}/list-openai-models.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch simple agent",
+      "program": "${workspaceFolder}/simple_agent/runtime.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch basic example",
+      "program": "${workspaceFolder}/simple_agent/runtime.py",
+      "console": "integratedTerminal"
+    }
+  ]
+}
