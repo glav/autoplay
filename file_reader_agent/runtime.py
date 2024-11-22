@@ -82,10 +82,9 @@ async def main() -> None:
     #response = await runtime.send_message(message, AgentId(agent_common.AGENT_ROUTER,"default"))
 
     await runtime.publish_message(message, topic_id=TopicId(type=agent_common.AGENT_TOPIC_USER_REQUEST, source="default"))
-    await runtime.publish_message(agent_common.LocalDirMessage("What is the first file"), topic_id=TopicId(type=agent_common.AGENT_TOPIC_LOCALDIR, source="default"))
 
     # Allow time for message processing
-    await asyncio.sleep(2)
+    await asyncio.sleep(10)
     #await runtime.stop_when_idle()  # without this, messages dont get sent or processed unless you use sleep(..)
 
   # Stop the runtime processing messages.
