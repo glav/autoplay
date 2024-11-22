@@ -1,13 +1,13 @@
 import agent_common
 import config
 from autogen_core.base import MessageContext
-from autogen_core.components import RoutedAgent, message_handler
+from autogen_core.components import RoutedAgent, message_handler, type_subscription
 from autogen_core.components.models import ChatCompletionClient, SystemMessage, UserMessage
 from githubreader.githubreader import GithubReader
 from githubreader.githubrepo import GithubRepo
 from githubreader.githubreporeader import GithubRepoReader
 
-
+@type_subscription(topic_type=agent_common.AGENT_TOPIC_GITHUB)
 class GithubAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient) -> None:
         super().__init__(agent_common.AGENT_GITHIB)
@@ -15,7 +15,7 @@ class GithubAgent(RoutedAgent):
         self._model_client = model_client
 
     @message_handler
-    async def handle_user_message(self, message: agent_common.Message, ctx: MessageContext) -> agent_common.Message:
+    async def handle_user_message(self, message: agent_common.GithubMessage, ctx: MessageContext) -> agent_common.GithubMessage:
         if not config.GITHUB_TOKEN:
             raise ValueError("No GITHUB_TOKEN defined in the environment.")
 
