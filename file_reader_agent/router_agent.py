@@ -21,7 +21,8 @@ class RouterAgent(RoutedAgent):
         print(f"RouterAgent received message: {message.content}")
 
          # Prepare input to the chat completion model.
-        router_message = "Can you determine whether the context is referrinng to a local directory query or a github repository query? If a local directory, then simply reply 'local', if Gitgub then simply reply 'github' otherwise reply 'unknown'\nContext:\n" + message.content
+        router_message = """Can you determine whether the context is referrinng to a local directory query or a github repository query?
+                        If a local directory, then simply reply 'local', if Github then simply reply 'github' otherwise reply 'unknown'"""+"\nContext:\n" + message.content
         user_message = UserMessage(content=router_message, source="user")
         response = await self._model_client.create(
             self._system_messages + [user_message], cancellation_token=ctx.cancellation_token)

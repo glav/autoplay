@@ -1,16 +1,12 @@
 # Create the runtime and register the agent.
 from dataclasses import dataclass
 import agent_common
-from local_dir_agent import LocalDirAgent
-from github_agent import GithubAgent
-from router_agent import RouterAgent
+from agent_init import register_agents
 
 from autogen_core.application import SingleThreadedAgentRuntime
 from autogen_core.base import AgentId, TopicId
-from dataclasses import dataclass
 from autogen_core.application import SingleThreadedAgentRuntime
 from autogen_core.base import AgentId, BaseAgent, MessageContext
-from autogen_core.components import TypeSubscription
 
 import asyncio
 from autogen_ext.models import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
@@ -18,51 +14,7 @@ from autogen_ext.models import OpenAIChatCompletionClient, AzureOpenAIChatComple
 runtime = SingleThreadedAgentRuntime()
 
 async def main() -> None:
-  await GithubAgent.register(
-      runtime,
-      agent_common.AGENT_GITHIB,
-      lambda: GithubAgent(
-        AzureOpenAIChatCompletionClient(model="gpt-4o",
-                  #api_version='2024-02-15-preview', # set this if you DO NOT have the OPENAI_API_VERSION environment variable set
-                  #azure_endpoint='https://somename.openai.azure.com', # set this if you DO NOT have the AZURE_OPENAI_ENDPOINT environment variable set
-                  #api_key="<AZURE_OPENAI_API_KEY>", # set this if you DO NOT have the AZURE_OPENAI_API_KEY environment variable set
-                  model_capabilities={
-                    "vision": False,
-                    "function_calling": True,
-                    "json_output": False,
-                }),
-          ),
-  )
-  await LocalDirAgent.register(
-      runtime,
-      agent_common.AGENT_LOCAL_FILE,
-      lambda: LocalDirAgent(
-        AzureOpenAIChatCompletionClient(model="gpt-4o",
-                  #api_version='2024-02-15-preview', # set this if you DO NOT have the OPENAI_API_VERSION environment variable set
-                  #azure_endpoint='https://somename.openai.azure.com', # set this if you DO NOT have the AZURE_OPENAI_ENDPOINT environment variable set
-                  #api_key="<AZURE_OPENAI_API_KEY>", # set this if you DO NOT have the AZURE_OPENAI_API_KEY environment variable set
-                  model_capabilities={
-                    "vision": False,
-                    "function_calling": True,
-                    "json_output": False,
-                }),
-          ),
-  )
-  await RouterAgent.register(
-      runtime,
-      agent_common.AGENT_ROUTER,
-      lambda: RouterAgent(
-        AzureOpenAIChatCompletionClient(model="gpt-4o",
-                  #api_version='2024-02-15-preview', # set this if you DO NOT have the OPENAI_API_VERSION environment variable set
-                  #azure_endpoint='https://somename.openai.azure.com', # set this if you DO NOT have the AZURE_OPENAI_ENDPOINT environment variable set
-                  #api_key="<AZURE_OPENAI_API_KEY>", # set this if you DO NOT have the AZURE_OPENAI_API_KEY environment variable set
-                  model_capabilities={
-                    "vision": False,
-                    "function_calling": True,
-                    "json_output": False,
-                }),
-          ),
-  )
+  await register_agents(runtime)
 
   # Start the runtime processing messages.
   runtime.start()

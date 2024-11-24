@@ -36,6 +36,8 @@ class GithubAgent(RoutedAgent):
         response = await self._model_client.create(
             self._system_messages + [user_message], cancellation_token=ctx.cancellation_token
         )
+
+        print(f"GithubAgent response: {response.content}")
         # Return with the model's response.
         assert isinstance(response.content, str)
-        return agent_common.Message(content=response.content)
+        return agent_common.GithubMessage(content=response.content)
