@@ -20,6 +20,13 @@
       "name": "Launch basic example",
       "program": "${workspaceFolder}/simple_agent/runtime.py",
       "console": "integratedTerminal"
+    },
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch file reader example",
+      "program": "${workspaceFolder}/file_reader_agent/runtime.py",
+      "console": "integratedTerminal"
     }
   ]
 }
