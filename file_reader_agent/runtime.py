@@ -39,8 +39,11 @@ async def main() -> None:
     await runtime.publish_message(message, topic_id=TopicId(type=agent_common.AGENT_TOPIC_USER_REQUEST, source="default"))
 
     # Allow time for message processing
-    await asyncio.sleep(10)
-    #await runtime.stop_when_idle()  # without this, messages dont get sent or processed unless you use sleep(..)
+    #await asyncio.sleep(10)
+
+    # wait for the agent batch to complete,. then restart the runtime
+    await runtime.stop_when_idle()  # without this, messages dont get sent or processed unless you use sleep(..)
+    runtime.start()
 
   # Stop the runtime processing messages.
   # This is the magic sauce. Without this, the loop keeps going around
