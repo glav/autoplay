@@ -59,4 +59,14 @@ Uses runtime and agent concepts.
 python simple_agent/runtime.py
 ```
 
+### File Reader Agent
+Run the `runtime.py` script to invoke the agent to answer questions about files on disk or files in a Github repo.
+Uses runtime, agent concepts, topics for agent messaging, proper logging.
+
+```sh
+cd file_reader_agent
+python runtime.py
+```
+Then ask a question like, "*What is the first file on disk that begins with the letter 'b'?*"
+
 
