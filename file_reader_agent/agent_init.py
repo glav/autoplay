@@ -3,12 +3,26 @@ from local_dir_agent import LocalDirAgent
 from github_agent import GithubAgent
 from autogen_ext.models import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
 from router_agent import RouterAgent
-
+import logging
+from autogen_core.application.logging import TRACE_LOGGER_NAME
+import config
 
 async def register_agents(runtime):
+
+
+
+  if not config.ENABLE_TRACE_LOGGING:
+    logging.basicConfig(level=logging.FATAL)  # Always have root logger set to FATAL
+    logger = logging.getLogger(TRACE_LOGGER_NAME)
+    logger.disabled = True
+  else:
+    logging.basicConfig(level=config.LOG_LEVEL)  # Always have root logger set to FATAL
+    logger = logging.getLogger(TRACE_LOGGER_NAME)
+
+
   await GithubAgent.register(
       runtime,
-      agent_common.AGENT_GITHIB,
+      agent_common.AGENT_GITHUB,
       lambda: GithubAgent(
         AzureOpenAIChatCompletionClient(model="gpt-4o",
                   #api_version='2024-02-15-preview', # set this if you DO NOT have the OPENAI_API_VERSION environment variable set
@@ -19,6 +33,7 @@ async def register_agents(runtime):
                     "function_calling": True,
                     "json_output": False,
                 }),
+                logger=logger,
           ),
   )
   await LocalDirAgent.register(
@@ -34,6 +49,7 @@ async def register_agents(runtime):
                     "function_calling": True,
                     "json_output": False,
                 }),
+                logger=logger,
           ),
   )
   await RouterAgent.register(
@@ -49,5 +65,6 @@ async def register_agents(runtime):
                     "function_calling": True,
                     "json_output": False,
                 }),
+                logger=logger,
           ),
   )

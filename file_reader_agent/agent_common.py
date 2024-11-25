@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-AGENT_GITHIB = 'agent_github'
+AGENT_GITHUB = 'agent_github'
 AGENT_LOCAL_FILE = 'agent_local_file'
 AGENT_ROUTER = 'agent_router'
 

@@ -10,6 +10,9 @@ from autogen_core.base import AgentId, BaseAgent, MessageContext
 
 import asyncio
 from autogen_ext.models import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
+import logging
+
+from autogen_core.application.logging import TRACE_LOGGER_NAME
 
 runtime = SingleThreadedAgentRuntime()
 

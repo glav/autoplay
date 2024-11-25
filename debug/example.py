@@ -5,6 +5,13 @@ from dataclasses import dataclass
 from autogen_core.components import RoutedAgent, message_handler, type_subscription
 from autogen_core.application import SingleThreadedAgentRuntime
 from autogen_core.base import MessageContext
+import logging
+
+from autogen_core.application.logging import TRACE_LOGGER_NAME
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(TRACE_LOGGER_NAME)
+#logger.setLevel(logging.DEBUG)
 
 @dataclass
 class Message:
@@ -14,7 +21,7 @@ class Message:
 class ReceivingAgent(RoutedAgent):
     @message_handler
     async def on_my_message(self, message: Message, ctx: MessageContext) -> None:
-        print(f"Received a message: {message.content}")
+        logger.debug(f"Received a message: {message.content}")
 
 class BroadcastingAgent(RoutedAgent):
     @message_handler
