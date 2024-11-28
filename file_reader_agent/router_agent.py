@@ -6,6 +6,10 @@ from autogen_core.base import MessageContext, TopicId
 from autogen_core.components import RoutedAgent, message_handler, type_subscription
 from autogen_core.components.models import ChatCompletionClient, SystemMessage, UserMessage
 import logging
+from autogen_core.components import DefaultTopicId, default_subscription
+
+#
+#@default_subscription
 @type_subscription(topic_type=agent_common.AGENT_TOPIC_USER_REQUEST)
 class RouterAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient, logger: logging.Logger) -> None:
@@ -15,7 +19,7 @@ class RouterAgent(RoutedAgent):
         self._logger = logger
 
     @message_handler
-    async def handle_user_message(self, message: agent_common.UserRequestMessage, ctx: MessageContext) -> None:
+    async def handle_user_message(self, message: agent_common.AgentMessage, ctx: MessageContext) -> None:
 
         self._logger.info(f"RouterAgent received message: {message.content}")
 
@@ -29,9 +33,13 @@ class RouterAgent(RoutedAgent):
         self._logger.info(f"RouterAgent response: {response.content}")
 
         if response.content == "local":
-            await self.publish_message(agent_common.LocalDirMessage(content=message.content), topic_id=TopicId(type=agent_common.AGENT_TOPIC_LOCALDIR, source="default"))
+            #await self.publish_message(agent_common.LocalDirMessage(content=message.content), topic_id=TopicId(type=agent_common.AGENT_TOPIC_LOCALDIR, source="default"))
+            await self.publish_message(agent_common.AgentMessage(content=message.content), topic_id=TopicId(type=agent_common.AGENT_TOPIC_LOCALDIR, source="default"))
+            #await self.publish_message(agent_common.LocalDirMessage(content=message.content), topic_id=DefaultTopicId())
         elif response.content == "github":
-            await self.publish_message(agent_common.GithubMessage(content=message.content), topic_id=TopicId(type=agent_common.AGENT_TOPIC_GITHUB, source="default"))
+            #await self.publish_message(agent_common.GithubMessage(content=message.content), topic_id=TopicId(type=agent_common.AGENT_TOPIC_GITHUB, source="default"))
+            #await self.publish_message(agent_common.GithubMessage(content=message.content), topic_id=DefaultTopicId())
+            await self.publish_message(agent_common.AgentMessage(content=message.content), topic_id=TopicId(type=agent_common.AGENT_TOPIC_GITHUB, source="default"))
         else:
             self._logger.error("Sorry, I could not determine whether you made a query about the local file system or a Github repository. COuld you rephrase the question.")
             print("Sorry, I could not determine whether you made a query about the local file system or a Github repository. COuld you rephrase the question.")

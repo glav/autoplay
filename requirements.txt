@@ -1,5 +1,6 @@
-autogen-agentchat==0.4.0.dev6
-autogen-core==0.4.0.dev6
-autogen-ext==0.4.0.dev6
+autogen-agentchat==0.4.0.dev7
+autogen-core==0.4.0.dev7
+autogen-core[grpc]==0.4.0.dev7
+autogen-ext==0.4.0.dev7
 openai==1.53.0
 PyGithub==2.5.0

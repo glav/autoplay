@@ -5,6 +5,11 @@ from autogen_core.base import MessageContext
 from autogen_core.components import RoutedAgent, message_handler, type_subscription
 from autogen_core.components.models import ChatCompletionClient, SystemMessage, UserMessage
 import logging
+from autogen_core.components import DefaultTopicId, RoutedAgent, default_subscription, message_handler
+
+
+#@type_subscription(topic_type=agent_common.AGENT_TOPIC_LOCALDIR)
+#@default_subscription
 @type_subscription(topic_type=agent_common.AGENT_TOPIC_LOCALDIR)
 class LocalDirAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient, logger: logging.Logger) -> None:
@@ -14,7 +19,7 @@ class LocalDirAgent(RoutedAgent):
         self._logger = logger
 
     @message_handler
-    async def handle_user_message(self, message: agent_common.LocalDirMessage, ctx: MessageContext) -> agent_common.LocalDirMessage:
+    async def handle_user_message(self, message: agent_common.AgentMessage, ctx: MessageContext) -> agent_common.LocalDirMessage:
 
         self._logger.info(f"LocalDirAgent received message: {message.content}")
 

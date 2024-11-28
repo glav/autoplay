@@ -4,7 +4,7 @@
 - **basic/basic.py**: Contains an asynchronous function to get weather information and an agent setup to query weather using Azure OpenAI.
 - **simple_agent/*.py**: Code to execute a simple agent co-ordinating using a simple runtime.
 - **debug/example.py**: Directly from Autogen site to see a working example
-- **file_reader_agent/*.py**: A slightly more complex custom thing with a router agent that selects between local disk operations and a github repository. Execute the `runtime.py` file to kick it all off. Github requires the following environment vars set:
+- **file_reader_agent/*.py**: A slightly more complex custom thing with a router agent that selects between local disk operations and a github repository. Execute the `app.py` file to kick it all off. Github requires the following environment vars set:
   - `GITHUB_REPONAME="{repo_name}"`  <-- For example 'Glav.HelperScripts'
   - `GITHUB_TOKEN="{your_github_PAT}"`
 - **list-openai-models.py**: Lists available OpenAI models using the OpenAI API.
@@ -60,13 +60,18 @@ python simple_agent/runtime.py
 ```
 
 ### File Reader Agent
-Run the `runtime.py` script to invoke the agent to answer questions about files on disk or files in a Github repo.
+Run the `app.py` script to invoke the agent to answer questions about files on disk or files in a Github repo.
 Uses runtime, agent concepts, topics for agent messaging, proper logging.
 
 ```sh
 cd file_reader_agent
-python runtime.py
+python app.py
 ```
 Then ask a question like, "*What is the first file on disk that begins with the letter 'b'?*"
+Note: You can easily switch between using a single or distributed runtimes using the following code in `app.py` by commenting and uncommenting the relevant line.
+```python
+#runtime = SingleRuntimeFacade()
+runtime = DistributedRuntimeFacade()
+```
 
 
