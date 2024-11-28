@@ -7,9 +7,7 @@ import logging
 from autogen_core.application.logging import TRACE_LOGGER_NAME
 import config
 
-async def register_agents(runtime):
-
-
+async def register_agents(runtime1, runtime2, runtime3):
 
   if not config.ENABLE_TRACE_LOGGING:
     logging.basicConfig(level=logging.FATAL)  # Always have root logger set to FATAL
@@ -21,7 +19,7 @@ async def register_agents(runtime):
 
 
   await GithubAgent.register(
-      runtime,
+      runtime1,
       agent_common.AGENT_GITHUB,
       lambda: GithubAgent(
         AzureOpenAIChatCompletionClient(model="gpt-4o",
@@ -37,7 +35,7 @@ async def register_agents(runtime):
           ),
   )
   await LocalDirAgent.register(
-      runtime,
+      runtime2,
       agent_common.AGENT_LOCAL_FILE,
       lambda: LocalDirAgent(
         AzureOpenAIChatCompletionClient(model="gpt-4o",
@@ -53,7 +51,7 @@ async def register_agents(runtime):
           ),
   )
   await RouterAgent.register(
-      runtime,
+      runtime3,
       agent_common.AGENT_ROUTER,
       lambda: RouterAgent(
         AzureOpenAIChatCompletionClient(model="gpt-4o",

@@ -7,7 +7,10 @@ from githubreader.githubreader import GithubReader
 from githubreader.githubrepo import GithubRepo
 from githubreader.githubreporeader import GithubRepoReader
 import logging
+from autogen_core.components import DefaultTopicId, RoutedAgent, default_subscription, message_handler
 
+#@type_subscription(topic_type=agent_common.AGENT_TOPIC_GITHUB)
+#@default_subscription
 @type_subscription(topic_type=agent_common.AGENT_TOPIC_GITHUB)
 class GithubAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient, logger: logging.Logger) -> None:
@@ -17,7 +20,7 @@ class GithubAgent(RoutedAgent):
         self._logger = logger
 
     @message_handler
-    async def handle_user_message(self, message: agent_common.GithubMessage, ctx: MessageContext) -> agent_common.GithubMessage:
+    async def handle_user_message(self, message: agent_common.AgentMessage, ctx: MessageContext) -> agent_common.GithubMessage:
         if not config.GITHUB_TOKEN:
             raise ValueError("No GITHUB_TOKEN defined in the environment.")
 

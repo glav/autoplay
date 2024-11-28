@@ -25,7 +25,7 @@
       "type": "debugpy",
       "request": "launch",
       "name": "Launch file reader example",
-      "program": "${workspaceFolder}/file_reader_agent/runtime.py",
+      "program": "${workspaceFolder}/file_reader_agent/app.py",
       "console": "integratedTerminal"
     }
   ]
