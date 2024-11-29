@@ -26,7 +26,8 @@ async def main() -> None:
 
   while True:
     # Read a line of text from the console.
-    user_input = input("Enter a message for the agent: ")
+    #user_input = input("Enter a message for the agent: ")
+    user_input = await asyncio.get_event_loop().run_in_executor(None, input, "Enter a message for the agent: ")  # Unless you do input this way, message processing is blocked while waiting for input
 
     if not user_input or user_input.lower() == "exit":
       break
@@ -43,7 +44,7 @@ async def main() -> None:
     #await runtime.publish_message(message=message, topic_id=DefaultTopicId())
 
     # Allow time for message processing
-    await asyncio.sleep(20)
+    await asyncio.sleep(5)
 
     # wait for the agent batch to complete,. then restart the runtime
     # await runtime.stop_when_idle()  # without this, messages dont get sent or processed unless you use sleep(..)
