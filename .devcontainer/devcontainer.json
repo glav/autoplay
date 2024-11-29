@@ -42,6 +42,10 @@
 
     },
     "remoteUser": "vscode",
+    "forwardPorts": [
+        50051,
+        50052
+    ],
     "mounts": [
 		// map host ssh to container
 		"source=${env:HOME}${env:USERPROFILE}/.ssh,target=/home/node/.ssh,type=bind,consistency=cached"

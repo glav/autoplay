@@ -73,5 +73,7 @@ Note: You can easily switch between using a single or distributed runtimes using
 #runtime = SingleRuntimeFacade()
 runtime = DistributedRuntimeFacade()
 ```
+Note: When running the application (via `python app.py`), you can then run the `observer_agent.py` in a separate process which simply demonstrates that you can run another agent in a different process and communicate easily.
+The `observer_agent.py` will simply listen for messages (sent via topics) and print them out.
 
 

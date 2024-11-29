@@ -16,7 +16,7 @@ import logging
 
 from autogen_core.application.logging import TRACE_LOGGER_NAME
 import platform
-
+import config
 
 class SingleRuntimeFacade():
   def __init__(self) -> None:
@@ -50,16 +50,16 @@ class DistributedRuntimeFacade():
     self._host = None
 
   async def start(self) -> None:
-    self._host = WorkerAgentRuntimeHost(address="localhost:50052")
+    self._host = WorkerAgentRuntimeHost(address=config.HOST_ADDRESS)
     self._host.start()
 
     await asyncio.sleep(1)
 
-    self._worker1runtime = WorkerAgentRuntime(host_address="localhost:50052")
+    self._worker1runtime = WorkerAgentRuntime(host_address=config.HOST_ADDRESS)
     #self._worker1runtime.add_message_serializer(CustomSerializer())  # this does nothing
-    self._worker2runtime = WorkerAgentRuntime(host_address="localhost:50052")
+    self._worker2runtime = WorkerAgentRuntime(host_address=config.HOST_ADDRESS)
     #self._worker2runtime.add_message_serializer(CustomSerializer())
-    self._worker3runtime = WorkerAgentRuntime(host_address="localhost:50052")
+    self._worker3runtime = WorkerAgentRuntime(host_address=config.HOST_ADDRESS)
     self._worker3runtime.add_message_serializer(CustomSerializer())
 
     #channel = grpc.secure_channel("localhost:50052", grpc.ssl_channel_credentials())

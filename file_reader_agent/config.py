@@ -7,3 +7,4 @@ GITHUB_REPONAME = os.getenv('GITHUB_REPONAME')
 
 ENABLE_TRACE_LOGGING = os.getenv('ENABLE_TRACE_LOGGING', 'true').lower() == 'true'
 LOG_LEVEL = logging.INFO
+HOST_ADDRESS = os.getenv('HOST_ADDRESS', "localhost:50052")
