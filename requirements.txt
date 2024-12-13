@@ -4,3 +4,8 @@ autogen-core[grpc]==0.4.0.dev7
 autogen-ext==0.4.0.dev7
 openai==1.53.0
 PyGithub==2.5.0
+opentelemetry-sdk==1.29.0
+opentelemetry-api==1.29.0
+opentelemetry-exporter-otlp-proto-http==1.29.0
+azure-monitor-opentelemetry==1.6.4
+opentelemetry-instrumentation-openai==0.34.0

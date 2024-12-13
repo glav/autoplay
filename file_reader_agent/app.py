@@ -13,8 +13,8 @@ from autogen_core.application.logging import TRACE_LOGGER_NAME
 from runtime_init import SingleRuntimeFacade, DistributedRuntimeFacade
 from autogen_core.components import DefaultTopicId, RoutedAgent, default_subscription, message_handler
 
-#runtime = SingleRuntimeFacade()
-runtime = DistributedRuntimeFacade()
+runtime = SingleRuntimeFacade()
+#runtime = DistributedRuntimeFacade()
 
 async def main() -> None:
   #await register_agents(runtime.get_runtime)
