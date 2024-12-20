@@ -36,22 +36,26 @@ from opentelemetry.instrumentation.openai import OpenAIInstrumentor
 def configure_oltp_tracing(endpoint: str = None) -> trace.TracerProvider:
     # Configure OpenTelemetry to use Azure Monitor with the
     # APPLICATIONINSIGHTS_CONNECTION_STRING environment variable.
-    #configure_azure_monitor(connection_string=os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING"))
+
+    if (config.APPLICATION_INSIGHTS_CONNECTION_STRING):
+      configure_azure_monitor(connection_string=config.APPLICATION_INSIGHTS_CONNECTION_STRING)
     #configure_azure_monitor()
 
-    # !!!Not using the commented out bits below seems to work best!
-    # otherwise generates errors in the trace logs
 
+    # This section seems to generate errors in AppInsights logs. If disabled, app insights does not have weird span errors
+    if config.ENABLE_TRACE_LOGGING:
     # Configure Tracing
-    tracer_provider = TracerProvider(resource=Resource({"service.name": "my-service"}))
-    processor = BatchSpanProcessor(OTLPSpanExporter())
-    tracer_provider.add_span_processor(processor)
-    trace.set_tracer_provider(tracer_provider)
+      tracer_provider = TracerProvider(resource=Resource({"service.name": "my-service"}))
+      processor = BatchSpanProcessor(OTLPSpanExporter())
+      tracer_provider.add_span_processor(processor)
+      trace.set_tracer_provider(tracer_provider)
+      OpenAIInstrumentor().instrument()
+      return tracer_provider
 
     OpenAIInstrumentor().instrument()
-    #return trace.get_tracer_provider()
+    return trace.get_tracer_provider()
 
-    return tracer_provider
+
 
 class SingleRuntimeFacade():
   def __init__(self) -> None:
