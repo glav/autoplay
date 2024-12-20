@@ -1,7 +1,7 @@
 import agent_common
 from local_dir_agent import LocalDirAgent
 from github_agent import GithubAgent
-from autogen_ext.models import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
+from autogen_ext.models.openai import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
 from router_agent import RouterAgent
 import logging
 from autogen_core.application.logging import TRACE_LOGGER_NAME

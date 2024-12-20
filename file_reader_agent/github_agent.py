@@ -1,13 +1,13 @@
 import agent_common
 import config
 from autogen_core.base import MessageContext
-from autogen_core.components import RoutedAgent, message_handler, type_subscription
-from autogen_core.components.models import ChatCompletionClient, SystemMessage, UserMessage
+from autogen_core import RoutedAgent, message_handler, type_subscription
+from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
 from githubreader.githubreader import GithubReader
 from githubreader.githubrepo import GithubRepo
 from githubreader.githubreporeader import GithubRepoReader
 import logging
-from autogen_core.components import DefaultTopicId, RoutedAgent, default_subscription, message_handler
+from autogen_core import DefaultTopicId, RoutedAgent, default_subscription, message_handler
 
 #@type_subscription(topic_type=agent_common.AGENT_TOPIC_GITHUB)
 #@default_subscription

@@ -3,15 +3,14 @@ from dataclasses import dataclass
 import agent_common
 #from file_reader_agent.agent_init_singleruntime import register_agents
 
-from autogen_core.application import SingleThreadedAgentRuntime
-from autogen_core.base import AgentId, TopicId
-from autogen_core.application import SingleThreadedAgentRuntime
-from autogen_core.base import AgentId, BaseAgent, MessageContext
+from autogen_core import SingleThreadedAgentRuntime
+from autogen_core import AgentId, TopicId
+from autogen_core import AgentId, BaseAgent, MessageContext
 
 import asyncio
 from autogen_core.application.logging import TRACE_LOGGER_NAME
 from runtime_init import SingleRuntimeFacade, DistributedRuntimeFacade
-from autogen_core.components import DefaultTopicId, RoutedAgent, default_subscription, message_handler
+from autogen_core import DefaultTopicId, RoutedAgent, default_subscription, message_handler
 
 runtime = SingleRuntimeFacade()
 #runtime = DistributedRuntimeFacade()

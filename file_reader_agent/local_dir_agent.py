@@ -2,10 +2,10 @@ import agent_common
 import os
 
 from autogen_core.base import MessageContext
-from autogen_core.components import RoutedAgent, message_handler, type_subscription
-from autogen_core.components.models import ChatCompletionClient, SystemMessage, UserMessage
+from autogen_core import RoutedAgent, message_handler, type_subscription
+from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
 import logging
-from autogen_core.components import DefaultTopicId, RoutedAgent, default_subscription, message_handler
+from autogen_core import DefaultTopicId, RoutedAgent, default_subscription, message_handler
 
 
 #@type_subscription(topic_type=agent_common.AGENT_TOPIC_LOCALDIR)
