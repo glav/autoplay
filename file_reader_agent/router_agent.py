@@ -15,7 +15,7 @@ from opentelemetry import trace
 class RouterAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient, logger: logging.Logger) -> None:
         super().__init__(agent_common.AGENT_ROUTER)
-        self._system_messages = [SystemMessage("You are a helpful AI assistant.")]
+        self._system_messages = [SystemMessage(content="You are a helpful AI assistant.", source="user")]
         self._model_client = model_client
         self._logger = logger
 

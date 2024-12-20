@@ -16,6 +16,7 @@ async def register_agents(runtime1, runtime2, runtime3):
   else:
     logging.basicConfig(level=config.LOG_LEVEL)  # Always have root logger set to FATAL
     logger = logging.getLogger(TRACE_LOGGER_NAME)
+    logger.setLevel(config.LOG_LEVEL)
 
 
   await GithubAgent.register(

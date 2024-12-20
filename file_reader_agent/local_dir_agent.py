@@ -14,7 +14,7 @@ from autogen_core import DefaultTopicId, RoutedAgent, default_subscription, mess
 class LocalDirAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient, logger: logging.Logger) -> None:
         super().__init__(agent_common.AGENT_LOCAL_FILE)
-        self._system_messages = [SystemMessage("You are a helpful AI assistant.")]
+        self._system_messages = [SystemMessage(content="You are a helpful AI assistant.", source="system")]
         self._model_client = model_client
         self._logger = logger
 

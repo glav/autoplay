@@ -13,7 +13,7 @@ class Message:
 class SimpleAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient) -> None:
         super().__init__("A simple agent")
-        self._system_messages = [SystemMessage("You are a helpful AI assistant.")]
+        self._system_messages = [SystemMessage(content="You are a helpful AI assistant.")]
         self._model_client = model_client
 
     @message_handler
