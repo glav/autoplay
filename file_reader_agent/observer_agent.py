@@ -1,12 +1,13 @@
 import agent_common
 import os
-from autogen_core.application import SingleThreadedAgentRuntime, WorkerAgentRuntime, WorkerAgentRuntimeHost
-from autogen_ext.models import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
-from autogen_core.base import MessageContext, Subscription
-from autogen_core.components import RoutedAgent, message_handler, type_subscription, TypeSubscription
-from autogen_core.components.models import ChatCompletionClient, SystemMessage, UserMessage
+from autogen_core import SingleThreadedAgentRuntime
+from autogen_ext.runtimes.grpc import GrpcWorkerAgentRuntime, GrpcWorkerAgentRuntimeHost
+from autogen_ext.models.openai import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
+from autogen_core import MessageContext, Subscription
+from autogen_core import RoutedAgent, message_handler, type_subscription, TypeSubscription
+from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
 import logging
-from autogen_core.components import DefaultTopicId, RoutedAgent, default_subscription, message_handler
+from autogen_core import DefaultTopicId, RoutedAgent, default_subscription, message_handler
 from autogen_core.application.logging import TRACE_LOGGER_NAME
 import asyncio
 
@@ -19,7 +20,7 @@ import asyncio
 class ObserverAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient, logger: logging.Logger) -> None:
         super().__init__("observer_agent")
-        self._system_messages = [SystemMessage("You are a helpful AI assistant.")]
+        self._system_messages = [SystemMessage(content="You are a helpful AI assistant.",source="system")]
         self._model_client = model_client
         self._logger = logger
         self._logger.info(">>>>> ObserverAgent initialized")
@@ -36,7 +37,7 @@ async def main():
     logger = logging.getLogger(TRACE_LOGGER_NAME)
 
     logger.info(">>>>> Starting ObserverAgent")
-    runtime = WorkerAgentRuntime(host_address="localhost:50052")
+    runtime = GrpcWorkerAgentRuntime(host_address="localhost:50052")
     runtime.start()
 
 

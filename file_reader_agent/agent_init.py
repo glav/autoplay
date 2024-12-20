@@ -1,7 +1,7 @@
 import agent_common
 from local_dir_agent import LocalDirAgent
 from github_agent import GithubAgent
-from autogen_ext.models import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
+from autogen_ext.models.openai import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
 from router_agent import RouterAgent
 import logging
 from autogen_core.application.logging import TRACE_LOGGER_NAME
@@ -16,6 +16,7 @@ async def register_agents(runtime1, runtime2, runtime3):
   else:
     logging.basicConfig(level=config.LOG_LEVEL)  # Always have root logger set to FATAL
     logger = logging.getLogger(TRACE_LOGGER_NAME)
+    logger.setLevel(config.LOG_LEVEL)
 
 
   await GithubAgent.register(

@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 
 from autogen_core.application import SingleThreadedAgentRuntime
-from autogen_core.base import MessageContext
-from autogen_core.components import RoutedAgent, message_handler
-from autogen_core.components.models import ChatCompletionClient, SystemMessage, UserMessage
+from autogen_core import MessageContext
+from autogen_core import RoutedAgent, message_handler
+from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
 
 @dataclass
 class Message:
@@ -13,7 +13,7 @@ class Message:
 class SimpleAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient) -> None:
         super().__init__("A simple agent")
-        self._system_messages = [SystemMessage("You are a helpful AI assistant.")]
+        self._system_messages = [SystemMessage(content="You are a helpful AI assistant.")]
         self._model_client = model_client
 
     @message_handler

@@ -1,11 +1,9 @@
 # Create the runtime and register the agent.
 from dataclasses import dataclass
 
-from autogen_core.application import SingleThreadedAgentRuntime
-from autogen_core.base import AgentId
+from autogen_core import SingleThreadedAgentRuntime
 from dataclasses import dataclass
-from autogen_core.application import SingleThreadedAgentRuntime
-from autogen_core.base import AgentId, BaseAgent, MessageContext
+from autogen_core import AgentId, BaseAgent, MessageContext
 
 import asyncio
 from autogen_ext.models import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient

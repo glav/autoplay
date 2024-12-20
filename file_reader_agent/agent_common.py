@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from autogen_core.base import MessageSerializer
+from autogen_core import MessageSerializer
 import json
 
 AGENT_GITHUB = 'agent_github'

@@ -4,23 +4,63 @@ from agent_common import LocalDirMessage, GithubMessage, CustomSerializer
 from agent_init import register_agents
 import grpc
 
-from autogen_core.application import SingleThreadedAgentRuntime
-from autogen_core.base import AgentId, TopicId
-from autogen_core.application import SingleThreadedAgentRuntime, WorkerAgentRuntime, WorkerAgentRuntimeHost
-from autogen_core.base import AgentId, BaseAgent, MessageContext
-from autogen_core.base import try_get_known_serializers_for_type
+from autogen_core import AgentId, TopicId
+from autogen_core import SingleThreadedAgentRuntime
+from autogen_ext.runtimes.grpc import GrpcWorkerAgentRuntime, GrpcWorkerAgentRuntimeHost
+from autogen_core import AgentId, BaseAgent, MessageContext
+from autogen_core import try_get_known_serializers_for_type
 
 import asyncio
-from autogen_ext.models import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
+from autogen_ext.models.openai import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
 import logging
 
 from autogen_core.application.logging import TRACE_LOGGER_NAME
 import platform
 import config
+from opentelemetry import trace
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.resources import Resource
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+# Import the `configure_azure_monitor()` function from the
+# `azure.monitor.opentelemetry` package.
+from azure.monitor.opentelemetry import configure_azure_monitor
+import os
+# Import the tracing api from the `opentelemetry` package.
+from opentelemetry import trace
+from opentelemetry.instrumentation.openai import OpenAIInstrumentor
+
+
+
+
+def configure_oltp_tracing(endpoint: str = None) -> trace.TracerProvider:
+    # Configure OpenTelemetry to use Azure Monitor with the
+    # APPLICATIONINSIGHTS_CONNECTION_STRING environment variable.
+
+    if (config.APPLICATION_INSIGHTS_CONNECTION_STRING):
+      configure_azure_monitor(connection_string=config.APPLICATION_INSIGHTS_CONNECTION_STRING)
+    #configure_azure_monitor()
+
+
+    # This section seems to generate errors in AppInsights logs. If disabled, app insights does not have weird span errors
+    if config.ENABLE_TRACE_LOGGING:
+    # Configure Tracing
+      tracer_provider = TracerProvider(resource=Resource({"service.name": "my-service"}))
+      processor = BatchSpanProcessor(OTLPSpanExporter())
+      tracer_provider.add_span_processor(processor)
+      trace.set_tracer_provider(tracer_provider)
+      OpenAIInstrumentor().instrument()
+      return tracer_provider
+
+    OpenAIInstrumentor().instrument()
+    return trace.get_tracer_provider()
+
+
 
 class SingleRuntimeFacade():
   def __init__(self) -> None:
-    self._runtime = SingleThreadedAgentRuntime()
+    tracer_provider = configure_oltp_tracing()
+    self._runtime = SingleThreadedAgentRuntime(tracer_provider=tracer_provider)
 
   async def start(self) -> None:
     self._runtime.start()
@@ -50,16 +90,18 @@ class DistributedRuntimeFacade():
     self._host = None
 
   async def start(self) -> None:
-    self._host = WorkerAgentRuntimeHost(address=config.HOST_ADDRESS)
+    self._host = GrpcWorkerAgentRuntimeHost(address=config.HOST_ADDRESS)
     self._host.start()
 
     await asyncio.sleep(1)
 
-    self._worker1runtime = WorkerAgentRuntime(host_address=config.HOST_ADDRESS)
+    tracer_provider = configure_oltp_tracing()
+
+    self._worker1runtime = GrpcWorkerAgentRuntime(host_address=config.HOST_ADDRESS, tracer_provider=tracer_provider)
     #self._worker1runtime.add_message_serializer(CustomSerializer())  # this does nothing
-    self._worker2runtime = WorkerAgentRuntime(host_address=config.HOST_ADDRESS)
+    self._worker2runtime = GrpcWorkerAgentRuntime(host_address=config.HOST_ADDRESS, tracer_provider=tracer_provider)
     #self._worker2runtime.add_message_serializer(CustomSerializer())
-    self._worker3runtime = WorkerAgentRuntime(host_address=config.HOST_ADDRESS)
+    self._worker3runtime = GrpcWorkerAgentRuntime(host_address=config.HOST_ADDRESS, tracer_provider=tracer_provider)
     self._worker3runtime.add_message_serializer(CustomSerializer())
 
     #channel = grpc.secure_channel("localhost:50052", grpc.ssl_channel_credentials())
@@ -78,7 +120,7 @@ class DistributedRuntimeFacade():
     await register_agents(self._worker1runtime, self._worker2runtime, self._worker3runtime)
     #await register_agents(self._worker2runtime)
 
-  async def get_runtime(self) -> list[WorkerAgentRuntime]:
+  async def get_runtime(self) -> list[GrpcWorkerAgentRuntime]:
     return [self._worker1runtime, self._worker2runtime, self._worker3runtime]
 
   async def stop_when_idle(self):

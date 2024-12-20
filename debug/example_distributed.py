@@ -1,13 +1,12 @@
 from dataclasses import dataclass
 import asyncio
-from autogen_core.base import MessageContext
-from autogen_core.components import DefaultTopicId, RoutedAgent, default_subscription, message_handler
-from autogen_core.components import TypeSubscription
-from autogen_core.base import TopicId
-from autogen_core.application import WorkerAgentRuntime
-from autogen_core.base import MessageContext
+from autogen_core import MessageContext
+from autogen_core import DefaultTopicId, RoutedAgent, default_subscription, message_handler
+from autogen_core import TypeSubscription
+from autogen_core import TopicId
+from autogen_core import MessageContext
 import logging
-from autogen_core.application import WorkerAgentRuntimeHost
+from autogen_ext.runtimes.grpc import GrpcWorkerAgentRuntimeHost, GrpcWorkerAgentRuntime
 
 from autogen_core.application.logging import TRACE_LOGGER_NAME
 
@@ -40,14 +39,14 @@ class MyAgent(RoutedAgent):
 
 
 async def main() -> None:
-    host = WorkerAgentRuntimeHost(address="localhost:50051")
+    host = GrpcWorkerAgentRuntimeHost(address="localhost:50051")
     host.start()  # Start a host service in the background.
 
-    worker1 = WorkerAgentRuntime(host_address="localhost:50051")
+    worker1 = GrpcWorkerAgentRuntime(host_address="localhost:50051")
     worker1.start()
     await MyAgent.register(worker1, "worker1", lambda: MyAgent("worker1"))
 
-    worker2 = WorkerAgentRuntime(host_address="localhost:50051")
+    worker2 = GrpcWorkerAgentRuntime(host_address="localhost:50051")
     worker2.start()
     await MyAgent.register(worker2, "worker2", lambda: MyAgent("worker2"))
 
