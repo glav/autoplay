@@ -8,7 +8,7 @@ from autogen_core import MessageContext
 import logging
 from autogen_ext.runtimes.grpc import GrpcWorkerAgentRuntimeHost, GrpcWorkerAgentRuntime
 
-from autogen_core.application.logging import TRACE_LOGGER_NAME
+from autogen_core import TRACE_LOGGER_NAME
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(TRACE_LOGGER_NAME)

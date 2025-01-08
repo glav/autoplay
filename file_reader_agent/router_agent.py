@@ -7,7 +7,7 @@ from autogen_core import RoutedAgent, message_handler, type_subscription
 from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
 import logging
 from autogen_core import DefaultTopicId, default_subscription
-from autogen_core.application.logging import TRACE_LOGGER_NAME
+from autogen_core import TRACE_LOGGER_NAME
 from opentelemetry import trace
 #
 #@default_subscription

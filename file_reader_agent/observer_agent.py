@@ -8,7 +8,7 @@ from autogen_core import RoutedAgent, message_handler, type_subscription, TypeSu
 from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
 import logging
 from autogen_core import DefaultTopicId, RoutedAgent, default_subscription, message_handler
-from autogen_core.application.logging import TRACE_LOGGER_NAME
+from autogen_core import TRACE_LOGGER_NAME
 import asyncio
 
 #@type_subscription(topic_type=agent_common.AGENT_TOPIC_LOCALDIR)

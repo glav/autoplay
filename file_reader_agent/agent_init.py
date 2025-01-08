@@ -4,7 +4,7 @@ from github_agent import GithubAgent
 from autogen_ext.models.openai import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
 from router_agent import RouterAgent
 import logging
-from autogen_core.application.logging import TRACE_LOGGER_NAME
+from autogen_core import TRACE_LOGGER_NAME
 import config
 
 async def register_agents(runtime1, runtime2, runtime3):

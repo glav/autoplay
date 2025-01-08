@@ -1,5 +1,5 @@
-from autogen_core.components import TypeSubscription
-from autogen_core.base import TopicId
+from autogen_core import TypeSubscription
+from autogen_core import TopicId
 import asyncio
 from dataclasses import dataclass
 from autogen_core import RoutedAgent, message_handler, type_subscription
@@ -7,7 +7,7 @@ from autogen_core import SingleThreadedAgentRuntime
 from autogen_core import MessageContext
 import logging
 
-from autogen_core.application.logging import TRACE_LOGGER_NAME
+from autogen_core import TRACE_LOGGER_NAME
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(TRACE_LOGGER_NAME)

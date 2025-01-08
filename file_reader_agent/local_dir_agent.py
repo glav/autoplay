@@ -1,7 +1,7 @@
 import agent_common
 import os
 
-from autogen_core.base import MessageContext
+from autogen_core import MessageContext
 from autogen_core import RoutedAgent, message_handler, type_subscription
 from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
 import logging

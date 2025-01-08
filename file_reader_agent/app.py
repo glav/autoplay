@@ -8,7 +8,7 @@ from autogen_core import AgentId, TopicId
 from autogen_core import AgentId, BaseAgent, MessageContext
 
 import asyncio
-from autogen_core.application.logging import TRACE_LOGGER_NAME
+from autogen_core import TRACE_LOGGER_NAME
 from runtime_init import SingleRuntimeFacade, DistributedRuntimeFacade
 from autogen_core import DefaultTopicId, RoutedAgent, default_subscription, message_handler
 
