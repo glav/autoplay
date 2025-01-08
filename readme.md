@@ -76,4 +76,24 @@ runtime = DistributedRuntimeFacade()
 Note: When running the application (via `python app.py`), you can then run the `observer_agent.py` in a separate process which simply demonstrates that you can run another agent in a different process and communicate easily.
 The `observer_agent.py` will simply listen for messages (sent via topics) and print them out.
 
+#### Telemetry note for File Reader agent
+AppInsights telemetry is enabled (albeit a WIP) if the '```APPLICATION_INSIGHTS_CONNECTION_STRING```' env var is set to a valid connection string.
+
+Set the env var  ```OTEL_EXPORTER_OTLP_ENDPOINT=http://host.docker.internal:4318```  # If running Aspire docker container locally
+
+To run the the docker aspire dashboard, execute
+```
+docker run --rm -it -p 18888:18888 -p 4318:18889 -d --name aspire-dashboard     mcr.microsoft.com/dotnet/aspire-dashboard:9.0
+```
+Run this outside of devcontainer, dashboard then is accessible on http://localhost:18888
+
+This will require a token, you can get this by examining the logs of the container and looking for the 't' parameter on the Url
+
+eg. ```docker logs {container-id}```
+Will see something like 'Login to the dashboard at ```http://localhost:18888/login?t=9583bf2935ee3d3538d54e676984e512``` where *9583bf2935ee3d3538d54e676984e512** is the access token
+#
+
+
+
+
 

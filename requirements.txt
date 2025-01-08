@@ -1,8 +1,9 @@
-autogen-agentchat==0.4.0.dev11
-autogen-core==0.4.0.dev11
-autogen-core[grpc]==0.4.0.dev11
-autogen-ext==0.4.0.dev11
+autogen-agentchat==0.4.0.dev13
+autogen-core==0.4.0.dev13
+autogen-core[grpc]==0.4.0.dev13
+autogen-ext==0.4.0.dev13
 openai
+azure-identity
 PyGithub
 opentelemetry-sdk
 opentelemetry-api

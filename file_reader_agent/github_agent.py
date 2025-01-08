@@ -1,6 +1,6 @@
 import agent_common
 import config
-from autogen_core.base import MessageContext
+from autogen_core import MessageContext
 from autogen_core import RoutedAgent, message_handler, type_subscription
 from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
 from githubreader.githubreader import GithubReader

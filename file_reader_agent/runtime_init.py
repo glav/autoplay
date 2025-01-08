@@ -14,7 +14,7 @@ import asyncio
 from autogen_ext.models.openai import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
 import logging
 
-from autogen_core.application.logging import TRACE_LOGGER_NAME
+from autogen_core import TRACE_LOGGER_NAME
 import platform
 import config
 from opentelemetry import trace
