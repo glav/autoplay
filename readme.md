@@ -110,6 +110,12 @@ termination = text_mention_termination | max_messages_termination
 ```
 The SelectorGroupChat can often go on a long time as agents converse with each other, sometimes on irrelevant conversations so it is important to craft the system prompt and agent descriptions appropriately. You may need to explicitly get an agent to issue a terminate action in certain scenarios to prevent long running conversations.
 
+#### Findings when using high level API SelectorGroupChat vs low level API RoutedAgent
+- More code required for low level API than high level API but more granular control. SelectorGroupChat much simpler though to get going.
+- No support for different runtimes in SelectorGroupChat. Does not provide option to change so assume it is using `SingleThreadedAgentRuntime`
+- Using Low level API allows a more deterministic approach, even if more code so can minimise LLM calls.
+- SelectorGroupChat requires careful system prompts and termination conditions as agents can carry on a conversation, even if the goal has been reached. Can use a lot of time and tokens.
+
 
 
 
