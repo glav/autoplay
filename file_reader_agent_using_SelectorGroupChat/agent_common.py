@@ -50,7 +50,7 @@ class CustomSerializer(MessageSerializer):
             if isinstance(parsed, dict) and "type" in parsed and "data" in parsed:
                 if parsed["type"] == "LocalDirMessage":
                     return LocalDirMessage(**parsed["data"])
-                elif parsed["type"] == "RequestMessage":
+                elif parsed['type'] == 'GithubMessage':
                     return GithubMessage(**parsed["data"])
                 elif parsed["type"] == "UserRequestMessage":
                     return UserRequestMessage(**parsed["data"])

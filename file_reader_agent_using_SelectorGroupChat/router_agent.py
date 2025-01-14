@@ -47,7 +47,7 @@ class RouterAgent(RoutedAgent):
                 #await self.publish_message(agent_common.GithubMessage(content=message.content), topic_id=DefaultTopicId())
                 await self.publish_message(agent_common.AgentMessage(content=message.content), topic_id=TopicId(type=agent_common.AGENT_TOPIC_GITHUB, source="default"))
             else:
-                self._logger.error("Sorry, I could not determine whether you made a query about the local file system or a Github repository. COuld you rephrase the question.")
+                self._logger.error("Sorry, I could not determine whether you made a query about the local file system or a Github repository. Could you rephrase the question.")
                 print("Sorry, I could not determine whether you made a query about the local file system or a Github repository. COuld you rephrase the question.")
 
             self._logger.info(f"RouterAgent stats: Prompt tokens: {response.usage.prompt_tokens}, Completion tokens: {response.usage.completion_tokens}")
