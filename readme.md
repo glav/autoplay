@@ -7,6 +7,7 @@
 - **file_reader_agent/*.py**: A slightly more complex custom thing with a router agent that selects between local disk operations and a github repository. Execute the `app.py` file to kick it all off. Github requires the following environment vars set:
   - `GITHUB_REPONAME="{repo_name}"`  <-- For example 'Glav.HelperScripts'
   - `GITHUB_TOKEN="{your_github_PAT}"`
+- **file_reader_agent_using_SelectorGroupChat/*.py**: Same functionality as `- **file_reader_agent/*.py**: ` above but implemented using high level API `SelectorGroupChat`
 - **list-openai-models.py**: Lists available OpenAI models using the OpenAI API.
 - **requirements.txt**: Lists the Python dependencies required for the project.
 
