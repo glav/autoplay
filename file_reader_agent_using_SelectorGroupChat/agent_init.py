@@ -46,7 +46,7 @@ ldAgent = AssistantAgent(
   description="This agent helps with local disk related tasks and files.",
   model_client=chatCompletionClient,
   tools=[get_local_disk_files],
-  system_message="""You are a an agent that uses tools to solve tasks related to files on local disks.
+  system_message="""You are an agent that uses tools to solve tasks related to files on local disks.
               You do not solve tasks or answer questions for anything apart from files on a local disk.
               If you have provided a sufficient answer to a question about local disk files, you can respond with TERMINATE
               to end the conversation.""") # Important: If you do not provide this instruction to terminate, the agents will continue trying to converse and answer questions.
