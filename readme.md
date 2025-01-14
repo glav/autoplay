@@ -10,6 +10,11 @@
 - **list-openai-models.py**: Lists available OpenAI models using the OpenAI API.
 - **requirements.txt**: Lists the Python dependencies required for the project.
 
+#### Environment Variables
+- Look at the `.env-sample` file to see what environment variables are required.
+- Copy the `.env-sample` into a `.env` file and populate the variables with valid values.
+- The code samples will load the environment vars from this file and use those.
+
 ## Setup
 
 1. **Clone the repository**:
@@ -91,7 +96,25 @@ This will require a token, you can get this by examining the logs of the contain
 
 eg. ```docker logs {container-id}```
 Will see something like 'Login to the dashboard at ```http://localhost:18888/login?t=9583bf2935ee3d3538d54e676984e512``` where *9583bf2935ee3d3538d54e676984e512** is the access token
-#
+
+
+### File Reader Agent Using SelectorGroupChat
+Run the `app.py` script to invoke the agent to answer questions about files on disk or files in a Github repo.
+Uses higher level API `SelectorGroupChat` to register agents. This implementation is meant to contrast the implementation and functionality from the low level APIP shown in the `file_reader_agent` example mentioned above.
+
+*Note: In `file_reader_agent_using_SelectorGroupChat/agent_init.py` is where the agents are initialised and where agent interaction termination is setup:
+```python
+text_mention_termination = TextMentionTermination("TERMINATE")
+max_messages_termination = MaxMessageTermination(max_messages=25)
+termination = text_mention_termination | max_messages_termination
+```
+The SelectorGroupChat can often go on a long time as agents converse with each other, sometimes on irrelevant conversations so it is important to craft the system prompt and agent descriptions appropriately. You may need to explicitly get an agent to issue a terminate action in certain scenarios to prevent long running conversations.
+
+#### Findings when using high level API SelectorGroupChat vs low level API RoutedAgent
+- More code required for low level API than high level API but more granular control. SelectorGroupChat much simpler though to get going.
+- No support for different runtimes in SelectorGroupChat. Does not provide option to change so assume it is using `SingleThreadedAgentRuntime`
+- Using Low level API allows a more deterministic approach, even if more code so can minimise LLM calls.
+- SelectorGroupChat requires careful system prompts and termination conditions as agents can carry on a conversation, even if the goal has been reached. Can use a lot of time and tokens.
 
 
 

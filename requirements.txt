@@ -11,5 +11,6 @@ opentelemetry-api
 opentelemetry-exporter-otlp-proto-http
 azure-monitor-opentelemetry
 opentelemetry-instrumentation-openai
+python-dotenv
 
 

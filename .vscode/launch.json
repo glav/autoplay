@@ -26,6 +26,15 @@
       "request": "launch",
       "name": "Launch file reader example",
       "program": "${workspaceFolder}/file_reader_agent/app.py",
+      "cwd": "${workspaceFolder}/file_reader_agent",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch SelectorGroupChat file reader example",
+      "program": "${workspaceFolder}/file_reader_agent_using_SelectorGroupChat/app.py",
+      "cwd": "${workspaceFolder}/file_reader_agent_using_SelectorGroupChat",
       "console": "integratedTerminal"
     }
   ]

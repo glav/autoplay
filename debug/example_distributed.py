@@ -1,4 +1,9 @@
 from dataclasses import dataclass
+
+from dotenv import load_dotenv
+env_loaded = load_dotenv(dotenv_path="../.env", override=True)
+print(f"Env variables loaded: {env_loaded}")
+
 import asyncio
 from autogen_core import MessageContext
 from autogen_core import DefaultTopicId, RoutedAgent, default_subscription, message_handler

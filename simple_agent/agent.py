@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 
-from autogen_core.application import SingleThreadedAgentRuntime
 from autogen_core import MessageContext
 from autogen_core import RoutedAgent, message_handler
 from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
