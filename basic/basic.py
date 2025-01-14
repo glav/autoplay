@@ -1,3 +1,7 @@
+from dotenv import load_dotenv
+env_loaded = load_dotenv(dotenv_path="../.env", override=True)
+print(f"Env variables loaded: {env_loaded}")
+
 import logging
 import asyncio
 

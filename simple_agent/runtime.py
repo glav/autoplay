@@ -1,12 +1,16 @@
 # Create the runtime and register the agent.
 from dataclasses import dataclass
 
+from dotenv import load_dotenv
+env_loaded = load_dotenv(dotenv_path="../.env", override=True)
+print(f"Env variables loaded: {env_loaded}")
+
 from autogen_core import SingleThreadedAgentRuntime
 from dataclasses import dataclass
 from autogen_core import AgentId, BaseAgent, MessageContext
 
 import asyncio
-from autogen_ext.models import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
+from autogen_ext.models.openai import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
 from agent import SimpleAgent, Message
 
 runtime = SingleThreadedAgentRuntime()

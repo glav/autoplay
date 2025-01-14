@@ -1,7 +1,11 @@
 # Create the runtime and register the agent.
 from dataclasses import dataclass
 import agent_common
-#from file_reader_agent.agent_init_singleruntime import register_agents
+
+from dotenv import load_dotenv
+env_loaded = load_dotenv(dotenv_path="../.env", override=True)
+print(f"Env variables loaded: {env_loaded}")
+
 
 from autogen_core import SingleThreadedAgentRuntime
 from autogen_core import AgentId, TopicId

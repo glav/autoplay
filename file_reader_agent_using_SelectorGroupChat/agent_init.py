@@ -32,17 +32,24 @@ chatCompletionClient = AzureOpenAIChatCompletionClient(model="gpt-4o",
 
 ghAgent = AssistantAgent(
   name=agent_common.AGENT_GITHUB,
-  description="This agent helps with Github repository related tasks only. This agent will only answer questions related to files within Github repositories.",
+  description="This agent helps with Github repository related tasks only and files within the repository.",
   model_client=chatCompletionClient,
   tools=[get_repository_files],
-  system_message="You are aan agent that uses tools to solve tasks related to the files within Github repositories. Yoo do not answer questions to anything apart from files within github repositories.")
+  system_message="""You are an agent that uses tools to solve tasks related to the files within Github repositories.
+                  You do not answer questions to anything apart from files within github repositories.
+                  If you have provided a sufficient answer to a question about github repository files, you can respond with TERMINATE
+                  to end the conversation.""") # Important: If you do not provide this instruction to terminate, the agents will continue trying to converse and answer questions.
+
 
 ldAgent = AssistantAgent(
   name=agent_common.AGENT_TOPIC_LOCALDIR,
-  description="This agent helps with local disk related tasks. This agent will only answer questions related to files on local disks.",
+  description="This agent helps with local disk related tasks and files.",
   model_client=chatCompletionClient,
   tools=[get_local_disk_files],
-  system_message="You are a an agent that uses tools to solve tasks related to files on local disks. You do not solve tasks or answer questions for anything apart from files on a local disk.")
+  system_message="""You are a an agent that uses tools to solve tasks related to files on local disks.
+              You do not solve tasks or answer questions for anything apart from files on a local disk.
+              If you have provided a sufficient answer to a question about local disk files, you can respond with TERMINATE
+              to end the conversation.""") # Important: If you do not provide this instruction to terminate, the agents will continue trying to converse and answer questions.
 
 text_mention_termination = TextMentionTermination("TERMINATE")
 max_messages_termination = MaxMessageTermination(max_messages=25)
