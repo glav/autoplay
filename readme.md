@@ -8,6 +8,7 @@
   - `GITHUB_REPONAME="{repo_name}"`  <-- For example 'Glav.HelperScripts'
   - `GITHUB_TOKEN="{your_github_PAT}"`
 - **file_reader_agent_using_SelectorGroupChat/*.py**: Same functionality as `- **file_reader_agent/*.py**: ` above but implemented using high level API `SelectorGroupChat`
+- - **agent_using_AIFoundry/*.py**: Implement agents hosted in Azure AI Foundry Agents service/SDK but co-ordinated by Autogen `SelectorGroupChat`
 - **list-openai-models.py**: Lists available OpenAI models using the OpenAI API.
 - **requirements.txt**: Lists the Python dependencies required for the project.
 
@@ -117,7 +118,12 @@ The SelectorGroupChat can often go on a long time as agents converse with each o
 - Using Low level API allows a more deterministic approach, even if more code so can minimise LLM calls.
 - SelectorGroupChat requires careful system prompts and termination conditions as agents can carry on a conversation, even if the goal has been reached. Can use a lot of time and tokens.
 
+### AI Foundry AI Agents Service SDK
+This is trying to use Azure AI Foundry AI Agents SDK to host the agents themselves. The orchestration is still carried out by Autogen though as no such mechanism exists in AI Foundry.
 
+Run the `app.py` script to invoke the agent to answer questions. The simple agent answers in a pirates voice.
+
+You will need to have the `AZURE_AI_FOUNDRY_CONNECTION_STRING` environment variable set to an Azure AI Fopundry project connection string. Also, the assumption here is that `gpt-4o-mini` is deployed.
 
 
 
