@@ -7,22 +7,22 @@ from azure.monitor.opentelemetry import configure_azure_monitor
 import config
 
 class SimpleAgent():
-    def __init__(self):
+    def __init__(self, name="pirate", instructions="You are a helpful assistant that answers any query imitating a pirate."):
         self.project_client = AIProjectClient.from_connection_string(
             credential=DefaultAzureCredential(),
             conn_str=config.AZURE_AI_FOUNDRY_CONNECTION_STRING,
         )
         self.thread = None
         self.agent = None
+        self.name = name
+        self.instructions = instructions
 
     async def setup(self):
         print("Setting up agent")
         self.agent = self.project_client.agents.create_agent(
             model="gpt-4o-mini",
-            name="pirate",
-            instructions="""
-                You are a helpful assistant that answers any query imitating a pirate.
-            """,
+            name=self.name,
+            instructions=self.instructions,
             headers={"x-ms-enable-preview": "true"}
         )
         print(f"Created agent, ID: {self.agent.id}")
