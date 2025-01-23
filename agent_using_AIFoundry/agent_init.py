@@ -1,4 +1,3 @@
-import agent_common
 from autogen_ext.models.openai import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
 from autogen_agentchat.agents import AssistantAgent
 import logging
@@ -29,9 +28,11 @@ chatCompletionClient = AzureOpenAIChatCompletionClient(model="gpt-4o",
               })
 
 simple_agent = SimpleAgent()
+dumb_agent = SimpleAgent(name="dumb", instructions="You are a helpful assistant that answers any query imitating a dumb person.")
 
 async def setup_agents():
   await simple_agent.setup()
+  await dumb_agent.setup()
 
 pirate_agent = AssistantAgent(
   name="pirate",
@@ -43,15 +44,16 @@ pirate_agent = AssistantAgent(
                   # to end the conversation.""") # Important: If you do not provide this instruction to terminate, the agents will continue trying to converse and answer questions.
 
 chatty_agent = AssistantAgent(
-  name="chatty",
-  description="You are a helpful assistant that likes to have conversations with others.",
+  name="Doofus",
+  description="You are a helpful assistant that answers any query imitating a dumb person..",
   model_client=chatCompletionClient,
-  system_message="""You are a helpful assistant that likes to have conversations with others.""")
+  tools=[dumb_agent.submit_query],
+  system_message="""You are a helpful assistant that answers any query imitating a dumb person..""")
                   # If you have provided a sufficient answer to a question about github repository files, you can respond with TERMINATE
                   # to end the conversation.""") # Important: If you do not provide this instruction to terminate, the agents will continue trying to converse and answer questions.
 
 text_mention_termination = TextMentionTermination("TERMINATE")
-max_messages_termination = MaxMessageTermination(max_messages=4)
+max_messages_termination = MaxMessageTermination(max_messages=8)
 termination = text_mention_termination | max_messages_termination
 
 team = SelectorGroupChat(
