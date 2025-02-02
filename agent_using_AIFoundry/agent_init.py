@@ -27,8 +27,8 @@ chatCompletionClient = AzureOpenAIChatCompletionClient(model="gpt-4o",
                   "json_output": False,
               })
 
-simple_agent = SimpleAgent()
-dumb_agent = SimpleAgent(name="dumb", instructions="You are a helpful assistant that answers any query imitating a dumb person.")
+simple_agent = SimpleAgent(name="pirate", instructions="You are a helpful assistant that answers any query imitating a pirate.")
+dumb_agent = SimpleAgent(name="doofus", instructions="You are a helpful assistant that answers any query imitating a dumb person.")
 
 async def setup_agents():
   await simple_agent.setup()
