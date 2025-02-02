@@ -8,7 +8,7 @@
   - `GITHUB_REPONAME="{repo_name}"`  <-- For example 'Glav.HelperScripts'
   - `GITHUB_TOKEN="{your_github_PAT}"`
 - **file_reader_agent_using_SelectorGroupChat/*.py**: Same functionality as `- **file_reader_agent/*.py**: ` above but implemented using high level API `SelectorGroupChat`
-- - **agent_using_AIFoundry/*.py**: Implement agents hosted in Azure AI Foundry Agents service/SDK but co-ordinated by Autogen `SelectorGroupChat`
+- **agent_using_AIFoundry/*.py**: Implement agents hosted in Azure AI Foundry Agents service/SDK but co-ordinated by Autogen `SelectorGroupChat`
 - **list-openai-models.py**: Lists available OpenAI models using the OpenAI API.
 - **requirements.txt**: Lists the Python dependencies required for the project.
 
