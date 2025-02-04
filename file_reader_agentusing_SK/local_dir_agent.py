@@ -1,6 +1,7 @@
 import agent_common
 import os
 import config
+from base_sk_agent import base_sk_agent
 from semantic_kernel.agents import ChatCompletionAgent
 from autogen_core import MessageContext
 from autogen_core import RoutedAgent, message_handler, type_subscription
@@ -31,7 +32,7 @@ class LocalDirAgent(RoutedAgent):
         self._system_messages = [SystemMessage(content="You are a helpful AI assistant.", source="system")]
         self._model_client = model_client
         self._logger = logger
-        self.sk_agent = LocalDirAgent_SK(kernel=Kernel(), logger=logger)
+        self.sk_agent = LocalDirAgent_SK(logger=logger)
 
     @message_handler
     async def handle_user_message(self, message: agent_common.AgentMessage, ctx: MessageContext) -> agent_common.LocalDirMessage:
@@ -43,48 +44,9 @@ class LocalDirAgent(RoutedAgent):
         assert isinstance(response.content, str)
         return agent_common.LocalDirMessage(content=response.content)
 
-class LocalDirAgent_SK():
-    def __init__(self, kernel: Kernel, logger):
-        self.kernel = kernel
-        self.service_id = "local_dir_chat_service"
-        self.logger = logger
-        self.history = ChatHistory()
-        # self.chat_completion = AzureChatCompletion(
-        #     deployment_name=config.AZURE_OPENAI_CHAT_DEPLOYMENT_NAME,
-        #     api_key=config.AZURE_OPENAI_API_KEY,
-        #     base_url=config.AZURE_OPENAI_ENDPOINT,
-        #     service_id=self.service_id,
-        # )
-        self.chat_completion = AzureChatCompletion(service_id=self.service_id)
-
-        self.kernel.add_service(self.chat_completion)
-        execution_settings = AzureChatPromptExecutionSettings()
-        execution_settings.function_choice_behavior = FunctionChoiceBehavior.Auto()
-
-        self.agent = ChatCompletionAgent(
-            service_id=self.service_id, kernel=kernel, name="localdirchatagent",
-            instructions="You are a helpful AI assistant", execution_settings=execution_settings)
-
-    async def submit_query(self, query: str):
-        self.history.add_user_message(query)
-        # Get the response from the AI
-        try:
-            results = self.agent.invoke(history=self.history)
-            response_content = ""
-            async for content in results:
-                print(f"# {content.role} - {content.name or '*'}: '{content.content}'")
-                response_content += content.content
-
-            # result = await self.chat_completion.get_chat_message_content(
-            #     chat_history=self.history,
-            #     settings=execution_settings,
-            #     kernel=self.kernel,
-            # )
-        except Exception as e:
-            self.logger.error(f"Error during chat completion: {e}")
-            result = SystemMessage(content="An error occurred while processing your request.", source="system")
-        self.history.add_message(ChatMessageContent(content=response_content, role="assistant"))
-        return response_content
+class LocalDirAgent_SK(base_sk_agent):
+    def __init__(self, logger: logging.Logger):
+        super().__init__(logger=logger, service_id="local_dir_chat_service", agent_name="localdirchatagent", agent_instruction="You are a helpful AI assistant")
 
     async def process_local_file_request(self, query: str):
         # get dir contents
@@ -96,8 +58,8 @@ class LocalDirAgent_SK():
         # Prepare input to the chat completion model.
         response = await self.submit_query(query + "\nContext:\n" + context)
 
-        self._logger.info(f"LocalDirAgent_SK response: {response.content}")
-        print(response.content)
+        self.logger.info(f"LocalDirAgent_SK response: {response}")
+        print(response)
         # Return with the model's response.
-        return response.content
+        return response
 

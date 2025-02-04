@@ -24,13 +24,14 @@ async def main():
 
     service_id = "azure_chat_service"
     # Add Azure OpenAI chat completion
-    chat_completion = AzureChatCompletion(service_id=service_id)
-    #     deployment_name=config.AZURE_OPENAI_CHAT_DEPLOYMENT_NAME,
-    #     api_key=config.AZURE_OPENAI_API_KEY,
-    #     base_url=config.AZURE_OPENAI_ENDPOINT,
-    #     api_version=config.AZURE_OPENAI_API_VERSION
+    #chat_completion = AzureChatCompletion(service_id=service_id)
+    chat_completion = AzureChatCompletion(service_id=service_id,
+        deployment_name=config.AZURE_OPENAI_CHAT_DEPLOYMENT_NAME,
+        api_key=config.AZURE_OPENAI_API_KEY,
+        base_url=config.AZURE_OPENAI_ENDPOINT,
+        #api_version=config.AZURE_OPENAI_API_VERSION
 
-    # )
+    )
     kernel.add_service(chat_completion)
 
     # Set the logging level for  semantic_kernel.kernel to DEBUG.
