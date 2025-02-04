@@ -36,6 +36,15 @@
       "program": "${workspaceFolder}/file_reader_agent_using_SelectorGroupChat/app.py",
       "cwd": "${workspaceFolder}/file_reader_agent_using_SelectorGroupChat",
       "console": "integratedTerminal"
+    },
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch SelectorGroupChat with SK file reader example",
+      "program": "${workspaceFolder}/file_reader_agentusing_SK/app.py",
+      "cwd": "${workspaceFolder}/file_reader_agentusing_SK",
+      "console": "integratedTerminal"
     }
+
   ]
 }

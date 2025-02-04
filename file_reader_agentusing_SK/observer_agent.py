@@ -10,6 +10,7 @@ import logging
 from autogen_core import DefaultTopicId, RoutedAgent, default_subscription, message_handler
 from autogen_core import TRACE_LOGGER_NAME
 import asyncio
+import config
 
 #@type_subscription(topic_type=agent_common.AGENT_TOPIC_LOCALDIR)
 #@default_subscription
@@ -45,7 +46,7 @@ async def main():
       runtime,
       "observer_agent",
       lambda: ObserverAgent(
-        AzureOpenAIChatCompletionClient(model="gpt-4o",
+        AzureOpenAIChatCompletionClient(model=config.MAIN_AI_DEPLOYMENT_NAME,
                   #api_version='2024-02-15-preview', # set this if you DO NOT have the OPENAI_API_VERSION environment variable set
                   #azure_endpoint='https://somename.openai.azure.com', # set this if you DO NOT have the AZURE_OPENAI_ENDPOINT environment variable set
                   #api_key="<AZURE_OPENAI_API_KEY>", # set this if you DO NOT have the AZURE_OPENAI_API_KEY environment variable set

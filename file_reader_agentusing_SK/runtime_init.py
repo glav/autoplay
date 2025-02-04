@@ -68,8 +68,8 @@ class SingleRuntimeFacade():
   async def stop(self) -> None:
     await self._runtime.stop()
 
-  async def register_agents(self):
-    await register_agents(self._runtime,self._runtime,self._runtime)
+  async def register_agents(self, logger):
+    await register_agents(self._runtime,self._runtime,self._runtime, logger)
 
   async def get_runtime(self) -> list[SingleThreadedAgentRuntime]:
     return [self._runtime]
@@ -116,8 +116,8 @@ class DistributedRuntimeFacade():
     await self._worker3runtime.stop()
     await self._host.stop()
 
-  async def register_agents(self):
-    await register_agents(self._worker1runtime, self._worker2runtime, self._worker3runtime)
+  async def register_agents(self, logger):
+    await register_agents(self._worker1runtime, self._worker2runtime, self._worker3runtime, logger)
     #await register_agents(self._worker2runtime)
 
   async def get_runtime(self) -> list[GrpcWorkerAgentRuntime]:

@@ -15,20 +15,13 @@ import agent_common
 from local_dir_agent import LocalDirAgent
 from github_agent import GithubAgent
 import logging
+from autogen_ext.models.openai import OpenAIChatCompletionClient, AzureOpenAIChatCompletionClient
+from router_agent import RouterAgent
 
 import config
 
 loggerName = "kernel"
-async def setup_kernel():
-  kernel = Kernel()
-
-    # Add Azure OpenAI chat completion
-  chat_completion = AzureChatCompletion(
-        deployment_name="your_models_deployment_name",
-        api_key="your_api_key",
-        base_url="your_base_url",
-    )
-  kernel.add_service(chat_completion)
+async def setup_sk_logging():
 
     # Set the logging level for  semantic_kernel.kernel to DEBUG.
   if not config.ENABLE_TRACE_LOGGING:
@@ -47,55 +40,54 @@ async def setup_kernel():
   # Create a history of the conversation
   history = ChatHistory()
 
-  return kernel, execution_settings, history
+  return execution_settings, history, logger
 
-async def register_agents(runtime1, runtime2, runtime3):
-
-  # await GithubAgent.register(
-  #     runtime1,
-  #     agent_common.AGENT_GITHUB,
-  #     lambda: GithubAgent(
-  #       AzureOpenAIChatCompletionClient(model="gpt-4o",
-  #                 #api_version='2024-02-15-preview', # set this if you DO NOT have the OPENAI_API_VERSION environment variable set
-  #                 #azure_endpoint='https://somename.openai.azure.com', # set this if you DO NOT have the AZURE_OPENAI_ENDPOINT environment variable set
-  #                 #api_key="<AZURE_OPENAI_API_KEY>", # set this if you DO NOT have the AZURE_OPENAI_API_KEY environment variable set
-  #                 model_capabilities={
-  #                   "vision": False,
-  #                   "function_calling": True,
-  #                   "json_output": False,
-  #               }),
-  #               logger=logger,
-  #         ),
-  # )
-  # await LocalDirAgent.register(
-  #     runtime2,
-  #     agent_common.AGENT_LOCAL_FILE,
-  #     lambda: LocalDirAgent(
-  #       AzureOpenAIChatCompletionClient(model="gpt-4o",
-  #                 #api_version='2024-02-15-preview', # set this if you DO NOT have the OPENAI_API_VERSION environment variable set
-  #                 #azure_endpoint='https://somename.openai.azure.com', # set this if you DO NOT have the AZURE_OPENAI_ENDPOINT environment variable set
-  #                 #api_key="<AZURE_OPENAI_API_KEY>", # set this if you DO NOT have the AZURE_OPENAI_API_KEY environment variable set
-  #                 model_capabilities={
-  #                   "vision": False,
-  #                   "function_calling": True,
-  #                   "json_output": False,
-  #               }),
-  #               logger=logger,
-  #         ),
-  # )
-  # await RouterAgent.register(
-  #     runtime3,
-  #     agent_common.AGENT_ROUTER,
-  #     lambda: RouterAgent(
-  #       AzureOpenAIChatCompletionClient(model="gpt-4o",
-  #                 #api_version='2024-02-15-preview', # set this if you DO NOT have the OPENAI_API_VERSION environment variable set
-  #                 #azure_endpoint='https://somename.openai.azure.com', # set this if you DO NOT have the AZURE_OPENAI_ENDPOINT environment variable set
-  #                 #api_key="<AZURE_OPENAI_API_KEY>", # set this if you DO NOT have the AZURE_OPENAI_API_KEY environment variable set
-  #                 model_capabilities={
-  #                   "vision": False,
-  #                   "function_calling": True,
-  #                   "json_output": False,
-  #               }),
-  #               logger=logger,
-  #         ),
-  # )
+async def register_agents(runtime1, runtime2, runtime3, logger):
+  await GithubAgent.register(
+      runtime1,
+      agent_common.AGENT_GITHUB,
+      lambda: GithubAgent(
+        AzureOpenAIChatCompletionClient(model="gpt-4o",
+                  #api_version='2024-02-15-preview', # set this if you DO NOT have the OPENAI_API_VERSION environment variable set
+                  #azure_endpoint='https://somename.openai.azure.com', # set this if you DO NOT have the AZURE_OPENAI_ENDPOINT environment variable set
+                  #api_key="<AZURE_OPENAI_API_KEY>", # set this if you DO NOT have the AZURE_OPENAI_API_KEY environment variable set
+                  model_capabilities={
+                    "vision": False,
+                    "function_calling": True,
+                    "json_output": False,
+                }),
+                logger=logger,
+          ),
+  )
+  await LocalDirAgent.register(
+      runtime2,
+      agent_common.AGENT_LOCAL_FILE,
+      lambda: LocalDirAgent(
+        AzureOpenAIChatCompletionClient(model="gpt-4o",
+                  #api_version='2024-02-15-preview', # set this if you DO NOT have the OPENAI_API_VERSION environment variable set
+                  #azure_endpoint='https://somename.openai.azure.com', # set this if you DO NOT have the AZURE_OPENAI_ENDPOINT environment variable set
+                  #api_key="<AZURE_OPENAI_API_KEY>", # set this if you DO NOT have the AZURE_OPENAI_API_KEY environment variable set
+                  model_capabilities={
+                    "vision": False,
+                    "function_calling": True,
+                    "json_output": False,
+                }),
+                logger=logger,
+          ),
+  )
+  await RouterAgent.register(
+      runtime3,
+      agent_common.AGENT_ROUTER,
+      lambda: RouterAgent(
+        AzureOpenAIChatCompletionClient(model="gpt-4o",
+                  #api_version='2024-02-15-preview', # set this if you DO NOT have the OPENAI_API_VERSION environment variable set
+                  #azure_endpoint='https://somename.openai.azure.com', # set this if you DO NOT have the AZURE_OPENAI_ENDPOINT environment variable set
+                  #api_key="<AZURE_OPENAI_API_KEY>", # set this if you DO NOT have the AZURE_OPENAI_API_KEY environment variable set
+                  model_capabilities={
+                    "vision": False,
+                    "function_calling": True,
+                    "json_output": False,
+                }),
+                logger=logger,
+          ),
+  )

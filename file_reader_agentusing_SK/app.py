@@ -1,7 +1,7 @@
 # Create the runtime and register the agent.
 from dataclasses import dataclass
 import agent_common
-
+from agent_init import setup_sk_logging
 from dotenv import load_dotenv
 env_loaded = load_dotenv(dotenv_path="../.env", override=True)
 print(f"Env variables loaded: {env_loaded}")
@@ -20,9 +20,11 @@ runtime = SingleRuntimeFacade()
 #runtime = DistributedRuntimeFacade()
 
 async def main() -> None:
+  ( execution_settings, history, logger) = await setup_sk_logging()
+
   #await register_agents(runtime.get_runtime)
   await runtime.start()
-  await runtime.register_agents()
+  await runtime.register_agents(logger=logger)
 
   # Start the runtime processing messages.
   #await runtime.start()
