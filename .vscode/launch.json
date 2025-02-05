@@ -45,6 +45,14 @@
       "cwd": "${workspaceFolder}/file_reader_agentusing_SK",
       "console": "integratedTerminal"
     }
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch SK sample_from_doco",
+      "program": "${workspaceFolder}/file_reader_agentusing_SK/sample_from_doco.py",
+      "cwd": "${workspaceFolder}/file_reader_agentusing_SK",
+      "console": "integratedTerminal"
+    }
 
   ]
 }

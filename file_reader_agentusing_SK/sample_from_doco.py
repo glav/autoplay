@@ -28,7 +28,8 @@ async def main():
     chat_completion = AzureChatCompletion(service_id=service_id,
         deployment_name=config.AZURE_OPENAI_CHAT_DEPLOYMENT_NAME,
         api_key=config.AZURE_OPENAI_API_KEY,
-        base_url=config.AZURE_OPENAI_ENDPOINT,
+        endpoint=config.AZURE_OPENAI_ENDPOINT,  #This works, do not use base_url with a value like '"https://{aoai-host}.openai.azure.com/"'
+        #base_url=config.AZURE_OPENAI_ENDPOINT,
         #api_version=config.AZURE_OPENAI_API_VERSION
 
     )
