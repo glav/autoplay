@@ -1,9 +1,5 @@
 from semantic_kernel.agents import ChatCompletionAgent
-from autogen_core import MessageContext
-from autogen_core import RoutedAgent, message_handler, type_subscription
-from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
 import logging
-from autogen_core import DefaultTopicId, RoutedAgent, default_subscription, message_handler
 from semantic_kernel import Kernel
 from semantic_kernel.utils.logging import setup_logging
 from semantic_kernel.functions import kernel_function
@@ -60,6 +56,6 @@ class base_sk_agent():
             # )
         except Exception as e:
             self.logger.error(f"{self.agent_name} - Error during chat completion: {e}")
-            result = SystemMessage(content="An error occurred while processing your request.", source="system")
+            #result = SystemMessage(content="An error occurred while processing your request.", source="system")
 
         return response_content
