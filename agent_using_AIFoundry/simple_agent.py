@@ -54,7 +54,7 @@ class SimpleAgent():
         )
         print(f"SMS: {message}")
         # Create and process agent run in thread with tools
-        run = self.project_client.agents.create_and_process_run(thread_id=self.thread.id, assistant_id=self.agent.id)
+        run = self.project_client.agents.create_and_process_run(thread_id=self.thread.id, agent_id=self.agent.id)
         print(f"Run finished with status: {run.status}")
 
         if run.status == "failed":
