@@ -13,5 +13,10 @@ azure-monitor-opentelemetry
 opentelemetry-instrumentation-openai
 python-dotenv
 azure-ai-projects
+semantic-kernel
 
+# Add gRPC packages to fix ModuleNotFoundError
+grpcio>=1.54.0
+grpcio-tools>=1.54.0
+protobuf>=4.22.3
 

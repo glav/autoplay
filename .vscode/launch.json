@@ -36,6 +36,31 @@
       "program": "${workspaceFolder}/file_reader_agent_using_SelectorGroupChat/app.py",
       "cwd": "${workspaceFolder}/file_reader_agent_using_SelectorGroupChat",
       "console": "integratedTerminal"
-    }
+    },
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch SelectorGroupChat with SK file reader example",
+      "program": "${workspaceFolder}/file_reader_agentusing_SK/app.py",
+      "cwd": "${workspaceFolder}/file_reader_agentusing_SK",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch SK sample_from_doco",
+      "program": "${workspaceFolder}/file_reader_agentusing_SK/sample_from_doco.py",
+      "cwd": "${workspaceFolder}/file_reader_agentusing_SK",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch filereader using SK  example",
+      "program": "${workspaceFolder}/file_reader_agentusing_SK/app.py",
+      "cwd": "${workspaceFolder}/file_reader_agentusing_SK",
+      "console": "integratedTerminal"
+    },
+
   ]
 }
