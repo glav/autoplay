@@ -33,20 +33,20 @@ class base_sk_agent():
         self.execution_settings.function_choice_behavior = FunctionChoiceBehavior.Auto()
 
         self.agent = ChatCompletionAgent(
-            service_id=self.service_id, kernel=self.kernel, name=self.agent_name,
-            instructions=self.agent_instruction, execution_settings=self.execution_settings)
+            id=self.service_id, kernel=self.kernel, name=self.agent_name,
+            instructions=self.agent_instruction)
 
     async def submit_query(self, query: str):
         self.history.add_user_message(query)
         # Get the response from the AI
         try:
             self.logger.info(f"{self.agent_name} - Processing query: {query}")
-            results = self.agent.invoke(history=self.history)
+            results = self.agent.invoke(messages=self.history, settings=self.execution_settings)
             self.logger.info(f"{self.agent_name} -Query submitted.")
             response_content = ""
-            async for content in results:
-                self.logger.debug(f"# {content.role} - {content.name or '*'}: '{content.content}'")
-                response_content += content.content
+            async for chat_content in results:
+                self.logger.debug(f"# {chat_content.role} - {chat_content.name or '*'}: '{chat_content.content.content}'")
+                response_content += chat_content.content.content
 
             self.history.add_message(ChatMessageContent(content=response_content, role="assistant"))
             # result = await self.chat_completion.get_chat_message_content(
@@ -57,5 +57,4 @@ class base_sk_agent():
         except Exception as e:
             self.logger.error(f"{self.agent_name} - Error during chat completion: {e}")
             #result = SystemMessage(content="An error occurred while processing your request.", source="system")
-
-        return response_content
+        return ChatMessageContent(content=response_content, role="assistant")

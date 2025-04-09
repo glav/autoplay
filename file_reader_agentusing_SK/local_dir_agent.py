@@ -1,33 +1,15 @@
 import agent_common
 import os
-import config
 from base_sk_agent import base_sk_agent
-from semantic_kernel.agents import ChatCompletionAgent
 from autogen_core import MessageContext
 from autogen_core import RoutedAgent, message_handler, type_subscription
-from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
+from autogen_core.models import ChatCompletionClient, SystemMessage
 import logging
-from autogen_core import DefaultTopicId, RoutedAgent, default_subscription, message_handler
-from semantic_kernel import Kernel
-from semantic_kernel.utils.logging import setup_logging
-from semantic_kernel.functions import kernel_function
-from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
-from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
-from semantic_kernel.connectors.ai.chat_completion_client_base import ChatCompletionClientBase
-from semantic_kernel.contents.chat_history import ChatHistory, ChatMessageContent
-from semantic_kernel.functions.kernel_arguments import KernelArguments
-
-from semantic_kernel.connectors.ai.open_ai.prompt_execution_settings.azure_chat_prompt_execution_settings import (
-    AzureChatPromptExecutionSettings,
-)
 
 
-#@type_subscription(topic_type=agent_common.AGENT_TOPIC_LOCALDIR)
-#@default_subscription
 @type_subscription(topic_type=agent_common.AGENT_TOPIC_LOCALDIR)
 class LocalDirAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient, logger: logging.Logger) -> None:
-    #def __init__(self,logger: logging.Logger) -> None:
         super().__init__(agent_common.AGENT_LOCAL_FILE)
         self._system_messages = [SystemMessage(content="You are a helpful AI assistant.", source="system")]
         self._model_client = model_client
@@ -45,10 +27,35 @@ class LocalDirAgent(RoutedAgent):
         return agent_common.LocalDirMessage(content=response.content)
 
 class LocalDirAgent_SK(base_sk_agent):
+    """
+    An agent that processes queries about local directory contents using Semantic Kernel.
+
+    This agent lists files in the root directory and provides contextual information
+    about the directory contents when responding to queries.
+
+    Args:
+        logger (logging.Logger): Logger instance for recording the agent's activities.
+
+    Attributes:
+        logger (logging.Logger): Logger for recording agent activities.
+    """
     def __init__(self, logger: logging.Logger):
         super().__init__(logger=logger, service_id="local_dir_chat_service", agent_name="localdirchatagent", agent_instruction="You are a helpful AI assistant")
 
     async def process_local_file_request(self, query: str):
+        """
+        Process a query about local directory contents.
+
+        This method lists files in the root directory, creates a context
+        string with file paths, and submits the query with this context
+        to obtain a response.
+
+        Args:
+            query (str): The user's query about local directory contents.
+
+        Returns:
+            Response containing information about the requested files/directories.
+        """
         # get dir contents
         files = os.listdir('/')
         context = ""
@@ -59,7 +66,7 @@ class LocalDirAgent_SK(base_sk_agent):
         response = await self.submit_query(query + "\nContext:\n" + context)
 
         self.logger.info(f"LocalDirAgent_SK response: {response}")
-        print(response)
+
         # Return with the model's response.
         return response
 
