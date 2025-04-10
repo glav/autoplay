@@ -45,14 +45,14 @@ class MyAgent(RoutedAgent):
 
 async def main() -> None:
     host = GrpcWorkerAgentRuntimeHost(address="localhost:50051")
-    host.start()  # Start a host service in the background.
+    host.start()  # Await the start operation to ensure host is ready
 
     worker1 = GrpcWorkerAgentRuntime(host_address="localhost:50051")
-    worker1.start()
+    await worker1.start()  # Await to ensure connection is established
     await MyAgent.register(worker1, "worker1", lambda: MyAgent("worker1"))
 
     worker2 = GrpcWorkerAgentRuntime(host_address="localhost:50051")
-    worker2.start()
+    await worker2.start()  # Await to ensure connection is established
     await MyAgent.register(worker2, "worker2", lambda: MyAgent("worker2"))
 
     await worker2.publish_message(MyMessage(content="Hello!"), DefaultTopicId())
